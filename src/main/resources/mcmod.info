@@ -1,0 +1,19 @@
+[
+{
+  "modid": "trustcircle",
+  "name": "TrustCircle",
+  "description": "A mod that makes players close to each other have buffs",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://github.com/Ellpeck/TrustCircle",
+  "updateUrl": "",
+  "authorList": [ "Ellpeck" ],
+  "credits": "Ellpeck",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
