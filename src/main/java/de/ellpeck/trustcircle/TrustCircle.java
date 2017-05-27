@@ -29,6 +29,9 @@ public class TrustCircle{
     public static double baseStrength;
     public static float baseRegen;
 
+    public static boolean isTeamDependent;
+    public static boolean trustWithoutTeam;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
         config = new Configuration(event.getSuggestedConfigurationFile());
@@ -51,6 +54,9 @@ public class TrustCircle{
 
         baseStrength = config.get(Configuration.CATEGORY_GENERAL, "baseStrength", 1D, "The base strength effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
         baseRegen = (float)config.get(Configuration.CATEGORY_GENERAL, "baseRegen", 0.75D, "The base regen effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
+
+        isTeamDependent = config.get(Configuration.CATEGORY_GENERAL, "isTeamDependent", true, "If the trust effect will only be given to players that are in the same scoreboard team").getBoolean();
+        trustWithoutTeam = config.get(Configuration.CATEGORY_GENERAL, "trustWithoutTeam", true, "If players that are in no scoreboard team at all will also get the effect").getBoolean();
 
         if(config.hasChanged()){
             config.save();
