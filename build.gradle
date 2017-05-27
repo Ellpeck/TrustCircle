@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "1.10.2-r1"
+version = "1.10.2-r4"
 group= "de.ellpeck.trustcircle"
 archivesBaseName = "TrustCircle"
 

@@ -3,6 +3,7 @@ package de.ellpeck.trustcircle;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
@@ -20,13 +21,15 @@ public class Events{
 
                 for(EntityPlayer other : player.worldObj.playerEntities){
                     if(other != player && !other.isSpectator()){
-                        double dist = other.getDistanceSq(player.posX, player.posY, player.posZ);
-                        if(dist <= TrustCircle.maxRange*TrustCircle.maxRange){
-                            double mod = dist <= 0 ? 1 : (1/Math.sqrt(dist));
-                            modifier += mod*TrustCircle.baseCalcModifier;
+                        if(doesTeamWork(player.getTeam(), other.getTeam())){
+                            double dist = other.getDistanceSq(player.posX, player.posY, player.posZ);
+                            if(dist <= TrustCircle.maxRange*TrustCircle.maxRange){
+                                double mod = dist <= 0 ? 1 : (1/Math.sqrt(dist));
+                                modifier += mod*TrustCircle.baseCalcModifier;
 
-                            if(!TrustCircle.allowMultiplePlayers){
-                                break;
+                                if(!TrustCircle.allowMultiplePlayers){
+                                    break;
+                                }
                             }
                         }
                     }
@@ -47,6 +50,20 @@ public class Events{
                     }
                 }
             }
+        }
+    }
+
+    private static boolean doesTeamWork(Team myTeam, Team otherTeam){
+        if(TrustCircle.isTeamDependent){
+            if(myTeam != null){
+                return myTeam.isSameTeam(otherTeam);
+            }
+            else{
+                return TrustCircle.trustWithoutTeam && otherTeam == null;
+            }
+        }
+        else{
+            return true;
         }
     }
 
