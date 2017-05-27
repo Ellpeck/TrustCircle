@@ -41,16 +41,16 @@ public class TrustCircle{
     }
 
     public static void defineConfigValues(){
-        maxRange = config.get(Configuration.CATEGORY_GENERAL, "maxRange", 5D, "The maximum distance a player can be away from another for the trust effect to take place", 1D, 50D).getDouble();
-        updateInterval = config.get(Configuration.CATEGORY_GENERAL, "updateInterval", 5, "The amount of ticks between updates and reapplication of the potion effect", 1, 100).getInt();
+        maxRange = config.get(Configuration.CATEGORY_GENERAL, "maxRange", 8D, "The maximum distance a player can be away from another for the trust effect to take place", 1D, 50D).getDouble();
+        updateInterval = config.get(Configuration.CATEGORY_GENERAL, "updateInterval", 20, "The amount of ticks between updates and reapplication of the potion effect", 1, 100).getInt();
         allowMultiplePlayers = config.get(Configuration.CATEGORY_GENERAL, "allowMultiplePlayers", true, "If multiple players can influence the strength of the trust effect").getBoolean();
 
-        baseCalcModifier = config.get(Configuration.CATEGORY_GENERAL, "baseCalcModifier", 3D, "The modifier used to determine both the duration and the amplifier of the effect", 0D, 100D).getDouble();
-        durationModifier = config.get(Configuration.CATEGORY_GENERAL, "durationModifier", 20D, "The modifier used to determine the duration of the effect", 0D, 100D).getDouble();
-        amplifierModifier = config.get(Configuration.CATEGORY_GENERAL, "amplifierModifier", 1D, "The modifier used to determine the amplifier of the effect", 0D, 100D).getDouble();
+        baseCalcModifier = config.get(Configuration.CATEGORY_GENERAL, "baseCalcModifier", 5D, "The modifier used to determine both the duration and the amplifier of the effect", 0D, 100D).getDouble();
+        durationModifier = config.get(Configuration.CATEGORY_GENERAL, "durationModifier", 50D, "The modifier used to determine the duration of the effect", 0D, 500D).getDouble();
+        amplifierModifier = config.get(Configuration.CATEGORY_GENERAL, "amplifierModifier", 0.5D, "The modifier used to determine the amplifier of the effect", 0D, 100D).getDouble();
 
-        baseStrength = config.get(Configuration.CATEGORY_GENERAL, "baseStrength", 2D, "The base strength effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
-        baseRegen = (float)config.get(Configuration.CATEGORY_GENERAL, "baseRegen", 0.5D, "The base regen effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
+        baseStrength = config.get(Configuration.CATEGORY_GENERAL, "baseStrength", 1D, "The base strength effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
+        baseRegen = (float)config.get(Configuration.CATEGORY_GENERAL, "baseRegen", 0.75D, "The base regen effect that will be applied through the trust potion effect, set to 0 to disable", 0D, 10D).getDouble();
 
         if(config.hasChanged()){
             config.save();

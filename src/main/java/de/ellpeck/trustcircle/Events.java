@@ -19,10 +19,10 @@ public class Events{
                 double modifier = 0;
 
                 for(EntityPlayer other : player.worldObj.playerEntities){
-                    if(other != player){
+                    if(other != player && !other.isSpectator()){
                         double dist = other.getDistanceSq(player.posX, player.posY, player.posZ);
-                        if(dist <= TrustCircle.maxRange){
-                            double mod = dist <= 0 ? 1 : (1/dist);
+                        if(dist <= TrustCircle.maxRange*TrustCircle.maxRange){
+                            double mod = dist <= 0 ? 1 : (1/Math.sqrt(dist));
                             modifier += mod*TrustCircle.baseCalcModifier;
 
                             if(!TrustCircle.allowMultiplePlayers){
@@ -33,12 +33,17 @@ public class Events{
                 }
 
                 if(modifier > 0){
-                    int amplifier = MathHelper.ceiling_double_int(modifier*TrustCircle.amplifierModifier)-1;
-                    int duration = MathHelper.ceiling_double_int(modifier*TrustCircle.durationModifier);
+                    int amplifier = Math.min(3, MathHelper.ceiling_double_int(modifier*TrustCircle.amplifierModifier)-1);
+                    int duration = Math.max(TrustCircle.updateInterval+1, MathHelper.ceiling_double_int(modifier*TrustCircle.durationModifier));
 
                     PotionEffect active = player.getActivePotionEffect(TrustCircle.potionTrust);
-                    if(active == null || active.getAmplifier() != amplifier || active.getDuration() != duration){
-                        player.addPotionEffect(new PotionEffect(TrustCircle.potionTrust, duration, amplifier));
+                    boolean ampChange = active != null && active.getAmplifier() != amplifier;
+                    if(active == null || ampChange || active.getDuration() <= TrustCircle.updateInterval){
+                        if(ampChange){
+                            player.removePotionEffect(TrustCircle.potionTrust);
+                        }
+
+                        player.addPotionEffect(new PotionEffect(TrustCircle.potionTrust, duration, amplifier, true, true));
                     }
                 }
             }
