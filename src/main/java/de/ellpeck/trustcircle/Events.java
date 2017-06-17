@@ -14,12 +14,12 @@ public class Events{
     @SubscribeEvent
     public void onPlayerUpdate(LivingUpdateEvent event){
         EntityLivingBase entity = event.getEntityLiving();
-        if(entity != null && !entity.worldObj.isRemote && entity instanceof EntityPlayer){
+        if(entity != null && !entity.world.isRemote && entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer)entity;
-            if(player.worldObj.getTotalWorldTime()%TrustCircle.updateInterval == 0){
+            if(player.world.getTotalWorldTime()%TrustCircle.updateInterval == 0){
                 double modifier = 0;
 
-                for(EntityPlayer other : player.worldObj.playerEntities){
+                for(EntityPlayer other : player.world.playerEntities){
                     if(other != player && !other.isSpectator()){
                         if(doesTeamWork(player.getTeam(), other.getTeam())){
                             double dist = other.getDistanceSq(player.posX, player.posY, player.posZ);
@@ -36,8 +36,8 @@ public class Events{
                 }
 
                 if(modifier > 0){
-                    int amplifier = Math.min(3, MathHelper.ceiling_double_int(modifier*TrustCircle.amplifierModifier)-1);
-                    int duration = Math.max(TrustCircle.updateInterval+1, MathHelper.ceiling_double_int(modifier*TrustCircle.durationModifier));
+                    int amplifier = Math.min(3, MathHelper.ceil(modifier*TrustCircle.amplifierModifier)-1);
+                    int duration = Math.max(TrustCircle.updateInterval+1, MathHelper.ceil(modifier*TrustCircle.durationModifier));
 
                     PotionEffect active = player.getActivePotionEffect(TrustCircle.potionTrust);
                     boolean ampChange = active != null && active.getAmplifier() != amplifier;
